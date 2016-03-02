@@ -1,0 +1,3 @@
+{:require  [paho-demo.app]
+ :init-fns [paho-demo.app/init]
+ :compiler-options {:asset-path "js/app.out"}}
