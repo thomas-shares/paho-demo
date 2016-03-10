@@ -1,7 +1,6 @@
 (ns paho-demo.app
   (:require [reagent.core :as r]
             [cljsjs.paho]
-            [json-html.core :refer [edn->hiccup]]
             [cljs.reader :as reader]
             [reagent-forms.core :refer [bind-fields init-field value-of]]))
 
@@ -37,7 +36,6 @@
                         (send-message (pr-str {:message (:message @state) :name (:my-name @state)}))
                         (swap! state assoc-in [:message] ""))))}]))
 
-
 (def form-template
   [:div
    (input "My name" :text :my-name)
@@ -67,8 +65,6 @@
           ;(println id value extra)
           (swap! state assoc-in [id] value))]]
 
-
-
        [:div.col-md-7
         [:h3 "Chats!"]
         [bind-fields
@@ -90,11 +86,10 @@
 (defn msg-arrived [msg]
   (let [data (reader/read-string (.-payloadString msg))]
    (println "Recieved:" data)
-   ;(swap! state update-in [:text-area] conj (str (:name data) ": " (:message data) ""))))
    (swap! state update-text data)))
 
 (defn connect []
-  (let [mqtt (Paho.MQTT.Client. broker 8080 "")
+  (let [mqtt (Paho.MQTT.Client. broker 8080 )
         connectOptions (js/Object.)]
       (set! (.-onConnectionLost mqtt) (fn [reasonCode reasonMessage]
                                           (println reasonCode reasonMessage)))
